@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Page</title>
+</head>
+<body>
+    <h1>Employee Page</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.name}"></td>
+                <td><a th:href="@{/employee/}+${employee.id}">View Details</a></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

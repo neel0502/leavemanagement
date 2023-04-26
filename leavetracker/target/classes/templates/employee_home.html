@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Employee Home</title>
+</head>
+<body>
+	<h1>Welcome to your leave tracker, [[${employee.name}]]!</h1>
+    
+    <h2>Leaves Applied:</h2>
+    <table>
+    <tr>
+        <th>Leave Type</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+    </tr>
+    <tr th:each="leave : ${leaves}">
+        <td>[[${leave.leaveType.name}]]</td>
+        <td>[[${leave.startDateFormatted}]]</td>
+        <td>[[${leave.endDateFormatted}]]</td>
+        <td>
+            <span th:if="${leave.status == 'Pending'}" style="color: orange;">[[${leave.status}]]</span>
+            <span th:if="${leave.status == 'Approved'}" style="color: green;">[[${leave.status}]]</span>
+            <span th:if="${leave.status == 'Rejected'}" style="color: red;">[[${leave.status}]]</span>
+        </td>
+    </tr>
+    </table>
+	
+	<h2>Apply for a Leave:</h2>
+	<form method="post" th:action="@{/employee/{id}/applyLeave(id=${employee.id})}" th:object="${leave}">
+		<label for="leaveType">Leave Type:</label>
+		<select name="leaveType" id="leaveType">
+			<option value="Annual">Annual</option>
+			<option value="Sick">Sick</option>
+			<option value="Personal">Personal</option>
+			<option value="Maternity/Paternity">Maternity/Paternity</option>
+		</select>
+		<br><br>
+		<label for="startDate">Start Date:</label>
+		<input type="date" name="startDate" id="startDate">
+		<br><br>
+		<label for="endDate">End Date:</label>
+		<input type="date" name="endDate" id="endDate">
+		<br><br>
+		<input type="submit" value="Apply">
+	</form>
+</body>
+</html>

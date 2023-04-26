@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Leave Tracker - Manager</title>
+  </head>
+  <body>
+    <h1>Leave Tracker - Manager</h1>
+    <table border="1">
+      <tr>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Leave Start Date</th>
+        <th>Leave End Date</th>
+        <th>Leave Reason</th>
+        <th>Leave Status</th>
+        <th>Action</th>
+      </tr>
+      <tbody th:each="leave : ${leaves}">
+        <tr>
+          <td th:text="${leave.employeeId}"></td>
+          <td th:text="${leave.employeeName}"></td>
+          <td th:text="${leave.leaveStartDate}"></td>
+          <td th:text="${leave.leaveEndDate}"></td>
+          <td th:text="${leave.leaveReason}"></td>
+          <td>
+            <span th:if="${leave.leaveStatus == 'PENDING'}" style="color: orange;">Pending</span>
+            <span th:if="${leave.leaveStatus == 'APPROVED'}" style="color: green;">Approved</span>
+            <span th:if="${leave.leaveStatus == 'REJECTED'}" style="color: red;">Rejected</span>
+          </td>
+          <td>
+            <div th:if="${leave.leaveStatus == 'PENDING'}">
+              <form method="post" th:action="@{/manager/approve}">
+                <input type="hidden" name="id" th:value="${leave.id}"/>
+                <button type="submit" name="status" value="APPROVED">Approve</button>
+                <button type="submit" name="status" value="REJECTED">Reject</button>
+              </form>
+            </div>
+            <div th:if="${leave.leaveStatus != 'PENDING'}">
+              <span>No action available</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+    </div>
+  </body>
+</html>
